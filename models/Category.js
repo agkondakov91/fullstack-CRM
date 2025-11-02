@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-const Shema = mongoose.Shema;
+const Schema = mongoose.Schema;
 
-const categorySchema = new Shema({
+const categorySchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -12,7 +12,7 @@ const categorySchema = new Shema({
   },
   user: {
     ref: "user",
-    type: Shema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
   },
 });
 
