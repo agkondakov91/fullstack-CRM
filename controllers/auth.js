@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import keys from "../config/keys.js";
+import { errorHandler } from "../utils/errorHandler.js";
 
 class ControllerAuth {
   async login(req, res) {
@@ -57,7 +58,7 @@ class ControllerAuth {
       } catch (error) {
         // Обработка ошибки при сохранении пользователя
         console.error("Ошибка при создании пользователя:", error);
-        res.status(500).json({ message: "Ошибка сервера. Попробуйте позже." });
+        errorHandler(res, error);
       }
     }
   }
