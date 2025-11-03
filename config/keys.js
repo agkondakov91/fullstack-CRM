@@ -12,4 +12,5 @@ if (!MONGO_USER || !MONGO_PASSWORD) {
 
 export default {
   mongoURI: `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_CLUSTER}/${MONGO_DB_NAME}?retryWrites=true&w=majority`,
+  jwt: "dev-jwt",
 };

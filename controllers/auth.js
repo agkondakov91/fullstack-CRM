@@ -1,14 +1,39 @@
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import keys from "../config/keys.js";
 
 class ControllerAuth {
-  login(req, res) {
-    res.status(200).json({
-      login: {
-        email: req.body.email || "",
-        password: req.body.password || "",
-      },
+  async login(req, res) {
+    const candidate = await User.findOne({
+      email: req.body.email,
     });
+    if (candidate) {
+      // Проверка пароля, пользователь существует
+      const passwordResult = bcrypt.compareSync(
+        req.body.password,
+        candidate.password
+      );
+
+      if (passwordResult) {
+        // Пароль верный, генерируем токен
+        const token = jwt.sign(
+          {
+            email: candidate.email,
+            userId: candidate._id,
+          },
+          keys.jwt,
+          { expiresIn: 60 * 60 }
+        );
+        res.status(200).json({ token: `Bearer ${token}` });
+      } else {
+        // Пароль неверный
+        res.status(401).json({ message: "Пароли не совпадают" });
+      }
+    } else {
+      // Пользователя нет, ошибка
+      res.status(404).json({ message: "Пользователь с таким email не найден" });
+    }
   }
 
   async register(req, res) {
