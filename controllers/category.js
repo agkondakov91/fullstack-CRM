@@ -1,5 +1,7 @@
 class ControllerCategory {
-  getAll(req, res) {}
+  getAll(req, res) {
+    res.json({ message: "Get all categories" }); // Пример ответа когда есть аутентификация
+  }
 
   getById(req, res) {}
 
