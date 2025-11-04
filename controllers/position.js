@@ -1,11 +1,39 @@
+import Position from "../models/Position.js";
+import { errorHandler } from "../utils/errorHandler.js";
+
 class ControllerPosition {
-  getByCategoryId(req, res) {}
+  async getByCategoryId(req, res) {
+    try {
+      const positions = await Position.find({
+        category: req.params.categoryId,
+        user: req.user.id,
+      });
+      res.status(200).json(positions);
+    } catch (error) {
+      errorHandler(res, error);
+    }
+  }
 
-  create(req, res) {}
+  async create(req, res) {
+    try {
+    } catch (error) {
+      errorHandler(res, error);
+    }
+  }
 
-  remove(req, res) {}
+  async remove(req, res) {
+    try {
+    } catch (error) {
+      errorHandler(res, error);
+    }
+  }
 
-  update(req, res) {}
+  async update(req, res) {
+    try {
+    } catch (error) {
+      errorHandler(res, error);
+    }
+  }
 }
 
 const controller = new ControllerPosition();
