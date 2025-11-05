@@ -34,14 +34,33 @@ class ControllerCategory {
   }
 
   async create(req, res) {
+    const category = new Category({
+      name: req.body.name,
+      user: req.user.id,
+      imageSrc: req.file ? req.file.path : "",
+    });
     try {
+      await category.save();
+      res.status(201).json(category);
     } catch (error) {
       errorHandler(res, error);
     }
   }
 
   async update(req, res) {
+    const updated = {
+      name: req.body.name,
+    };
+    if (req.file) {
+      updated.imageSrc = req.file.path;
+    }
     try {
+      const category = await Category.findOneAndUpdate(
+        { _id: req.params.id },
+        { $set: updated },
+        { new: true }
+      );
+      res.status(200).json(category);
     } catch (error) {
       errorHandler(res, error);
     }
